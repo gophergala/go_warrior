@@ -19,5 +19,11 @@ func getUserFunction(warrior *characters.Warrior) controllers.UserFunction {
 }
 
 func Warrior(warrior *characters.Warrior) {
+	//space := warrior.Abilities.Feel(game.Forward)
+
+	//if space != nil && space.Empty() {
 	warrior.Walk(game.Forward)
+	//} else if space != nil && space.Enemy() {
+	//warrior.Abilities.Attack(game.Forward)
+	//}
 }

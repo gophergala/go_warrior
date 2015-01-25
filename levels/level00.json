@@ -1,6 +1,7 @@
 {
    "abilities":[
-      "feel"
+      "feel",
+      "attack"
    ],
    "board":{
       "height": 3,

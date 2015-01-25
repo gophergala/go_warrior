@@ -27,3 +27,17 @@ func (this *Abilities) Feel(direction game.Direction) *game.Space {
 
 	return nil
 }
+
+func (this *Abilities) Attack(direction game.Direction) *game.Space {
+	if ability, exists := this.Map["feel"]; !exists {
+
+		panic(errors.New("No such ability"))
+
+	} else {
+
+		return ability.Perform(this.Performer, direction).(*game.Space)
+
+	}
+
+	return nil
+}

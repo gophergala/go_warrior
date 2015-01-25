@@ -21,6 +21,10 @@ func (this *Space) Empty() bool {
 	return this.Element == nil
 }
 
+func (this *Space) Enemy() bool {
+	return !this.Empty() && this.Element.GetType() != "stairs"
+}
+
 func (this *Space) Stairs() bool {
 	return !this.Empty() && this.Element.GetType() == "stairs"
 }

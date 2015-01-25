@@ -30,3 +30,7 @@ func (this *Slug) GetSprite() string {
 func (this *Slug) GetType() string {
 	return "slug"
 }
+
+func (this *Slug) GetInitiative() int {
+	return 1
+}

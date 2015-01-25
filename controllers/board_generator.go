@@ -85,6 +85,10 @@ func getWarrior(config *LevelConfig) *characters.Warrior {
 			warrior.Abilities.Map["feel"] = &abilities.Feel{}
 			break
 
+		case "attack":
+			warrior.Abilities.Map["attack"] = &abilities.Attack{}
+			break
+
 		}
 	}
 

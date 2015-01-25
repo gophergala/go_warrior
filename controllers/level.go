@@ -8,11 +8,10 @@ import (
 	"time"
 )
 
-type UserFunction func()
-
 type LevelController struct {
 	Printer *Printer
 	Warrior *characters.Warrior
+	Board   *game.Board
 }
 
 func NewLevel() *LevelController {
@@ -26,6 +25,7 @@ func NewLevel() *LevelController {
 			Board: board,
 		},
 		Warrior: warrior,
+		Board:   board,
 	}
 }
 
@@ -38,7 +38,14 @@ func (this *LevelController) Start(f UserFunction) {
 
 	for {
 		this.Printer.PrintBoard()
-		f()
+
+		turn := &TurnController{
+			Board: this.Board,
+		}
+
+		p, i := turn.getAllCharacters()
+		turn.resolveTurns(f, p, i)
+
 		if isLevelSucceded() {
 			endLevel("Level successful!")
 			break
@@ -62,10 +69,6 @@ func endLevel(cause interface{}) {
 	}
 
 	fmt.Println(message)
-}
-
-func isLevelSucceded() bool {
-	return game.STATE == game.SUCCESS
 }
 
 func panicIfError(err error) {

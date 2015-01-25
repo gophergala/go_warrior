@@ -43,6 +43,10 @@ func (this *Warrior) GetType() string {
 	return "warrior"
 }
 
+func (this *Warrior) GetInitiative() int {
+	return 2
+}
+
 func (this *Warrior) Walk(direction game.Direction) {
 	space := this.Space
 	nextSpace := space.GetNext(direction)

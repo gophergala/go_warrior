@@ -1,29 +1,26 @@
 package characters
 
-//import "github.com/go_warrior/abilities"
+import "github.com/go_warrior/game"
 
 type Warrior struct {
 	Health       int
 	AttackPoints int
-	x            int
-	y            int
+	Space        *game.Space
 }
 
-func GetWarrior(x, y int) *Warrior {
+func GetWarrior(space, x, y int) *Warrior {
 	return &Warrior{
 		Health:       20,
 		AttackPoints: 3,
-		x:            x,
-		y:            y,
 	}
 }
 
-//func (this *Warrior) Health() {
-//return this.Health
-//}
+func (this *Warrior) SetSpace(space *game.Space) {
+	this.Space = space
+}
 
-func (this *Warrior) GetPosition() (int, int) {
-	return this.x, this.y
+func (this *Warrior) GetSpace() *game.Space {
+	return this.Space
 }
 
 func (this *Warrior) GetSprite() string {
@@ -32,4 +29,12 @@ func (this *Warrior) GetSprite() string {
 
 func (this *Warrior) GetType() string {
 	return "warrior"
+}
+
+func (this *Warrior) Move(direction string) error {
+	space := this.Space
+	nextSpace := space.GetNext(direction)
+	nextSpace.Element = this
+	space.Element = nil
+	return nil
 }

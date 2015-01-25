@@ -9,13 +9,18 @@ type BoardGenerator struct {
 	Board *game.Board
 }
 
-func (this *BoardGenerator) Generate() {
+func (this *BoardGenerator) Generate(elementMap map[string]game.Element) {
 	for y := 0; y < this.Board.Height; y++ {
 
 		for x := 0; x < this.Board.Width; x++ {
 			key := generateKey(x, y)
 
-			space := game.NewSpace()
+			space := game.NewSpace(this.Board, x, y)
+
+			if element, exists := elementMap[key]; exists {
+				element.SetSpace(space)
+				space.Element = element
+			}
 
 			this.Board.Spaces[key] = space
 		}

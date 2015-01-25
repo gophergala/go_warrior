@@ -1,7 +1,8 @@
 package game
 
 type Element interface {
-	GetPosition() (int, int)
+	SetSpace(*Space)
+	GetSpace() *Space
 	GetSprite() string
 	GetType() string
 }

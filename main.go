@@ -1,6 +1,8 @@
 package main
 
 import (
+	//"fmt"
+	"github.com/go_warrior/characters"
 	"github.com/go_warrior/controllers"
 	"github.com/go_warrior/game"
 )
@@ -16,7 +18,14 @@ func main() {
 		Board: &board,
 	}
 
-	generator.Generate()
+	warrior := &characters.Warrior{}
+
+	elements := map[string]game.Element{
+		//"1-2": &characters.Warrior{},
+		"0-2": warrior,
+	}
+
+	generator.Generate(elements)
 
 	printer := controllers.Printer{
 		Board: board,
@@ -24,4 +33,11 @@ func main() {
 
 	printer.PrintBoard()
 
+	//nextspace := board.Spaces["0-2"].GetNext("right")
+
+	//fmt.Println(nextspace.Element.GetSprite())
+
+	warrior.Move("right")
+
+	printer.PrintBoard()
 }

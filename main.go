@@ -1,47 +1,28 @@
 package main
 
 import (
-	"fmt"
 	"github.com/go_warrior/characters"
 	"github.com/go_warrior/controllers"
-	"github.com/go_warrior/environment"
 	"github.com/go_warrior/game"
 )
 
+var level *controllers.LevelController
+
 func main() {
-	board := game.Board{
-		Width:  3,
-		Height: 3,
-		Spaces: map[string]*game.Space{},
+	level, err := controllers.NewLevel()
+	if err != nil {
+		panic(err)
 	}
 
-	generator := controllers.BoardGenerator{
-		Board: &board,
+	level.Start(getUserFunction(level.Warrior))
+}
+
+func getUserFunction(warrior *characters.Warrior) controllers.UserFunction {
+	return func() {
+		Warrior(warrior)
 	}
+}
 
-	warrior := characters.NewWarrior()
-	slug := &characters.Slug{}
-	stairs := &environment.Stairs{}
-
-	elements := map[string]game.Element{
-		"2-0": stairs,
-		"1-2": warrior,
-		"1-1": slug,
-	}
-
-	generator.Generate(elements)
-
-	printer := controllers.Printer{
-		Board: board,
-	}
-
-	printer.PrintBoard()
-
-	space := warrior.Abilities.Feel(game.Forward)
-
-	fmt.Println(space.Element.GetSprite())
-	//warrior.Move(game.Forward)
-
-	//printer.PrintBoard()
-
+func Warrior(warrior *characters.Warrior) {
+	warrior.Walk(game.Forward)
 }

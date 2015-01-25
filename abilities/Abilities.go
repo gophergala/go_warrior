@@ -1,13 +1,29 @@
 package abilities
 
-import "github.com/go_warrior/game"
+import (
+	"errors"
+	"github.com/go_warrior/game"
+)
+
+type Ability interface {
+	Perform(Performer, game.Direction) interface{}
+}
 
 type Abilities struct {
 	Performer Performer
+	Map       map[string]Ability
 }
 
 func (this *Abilities) Feel(direction game.Direction) *game.Space {
-	feel := &Feel{}
+	if ability, exists := this.Map["feel"]; !exists {
 
-	return feel.Perform(this.Performer, direction)
+		panic(errors.New("No such ability"))
+
+	} else {
+
+		return ability.Perform(this.Performer, direction).(*game.Space)
+
+	}
+
+	return nil
 }

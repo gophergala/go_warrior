@@ -1,0 +1,22 @@
+{
+   "abilities":[
+      "feel"
+   ],
+   "elements":[
+      {
+         "type":"warrior",
+         "x":1,
+         "y":2
+      },
+      {
+         "type":"stairs",
+         "x":2,
+         "y":0
+      },
+      {
+         "type":"slug",
+         "x":1,
+         "y":1
+      }
+   ]
+}

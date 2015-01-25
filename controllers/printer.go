@@ -7,7 +7,7 @@ import (
 )
 
 type Printer struct {
-	Board game.Board
+	Board *game.Board
 }
 
 func (this *Printer) PrintBoard() {
@@ -17,7 +17,7 @@ func (this *Printer) PrintBoard() {
 		fmt.Print("|")
 
 		for j := 0; j < this.Board.Width; j++ {
-			key := generateKey(j, i)
+			key := GenerateKey(j, i)
 			currentSpace := this.Board.Spaces[key]
 
 			if currentSpace.Empty() {

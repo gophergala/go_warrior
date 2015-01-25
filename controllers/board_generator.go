@@ -1,19 +1,22 @@
 package controllers
 
-import (
-	"github.com/go_warrior/game"
-	"strconv"
-)
+import "github.com/go_warrior/game"
 
 type BoardGenerator struct {
 	Board *game.Board
+}
+
+func NewBoardGenerator(board *game.Board) *BoardGenerator {
+	return &BoardGenerator{
+		Board: board,
+	}
 }
 
 func (this *BoardGenerator) Generate(elementMap map[string]game.Element) {
 	for y := 0; y < this.Board.Height; y++ {
 
 		for x := 0; x < this.Board.Width; x++ {
-			key := generateKey(x, y)
+			key := GenerateKey(x, y)
 
 			space := game.NewSpace(this.Board, x, y)
 
@@ -26,8 +29,4 @@ func (this *BoardGenerator) Generate(elementMap map[string]game.Element) {
 		}
 
 	}
-}
-
-func generateKey(x, y int) string {
-	return strconv.Itoa(x) + "-" + strconv.Itoa(y)
 }

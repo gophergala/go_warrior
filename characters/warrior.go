@@ -17,7 +17,9 @@ func NewWarrior() *Warrior {
 	warrior := &Warrior{
 		Health:       20,
 		AttackPoints: 3,
-		Abilities:    &abilities.Abilities{},
+		Abilities: &abilities.Abilities{
+			Map: map[string]abilities.Ability{},
+		},
 	}
 
 	warrior.Abilities.Performer = warrior
@@ -41,15 +43,18 @@ func (this *Warrior) GetType() string {
 	return "warrior"
 }
 
-func (this *Warrior) Move(direction game.Direction) error {
+func (this *Warrior) Walk(direction game.Direction) {
 	space := this.Space
 	nextSpace := space.GetNext(direction)
 
 	if nextSpace == nil {
-		return errors.New("Cannot move there!")
+		panic(errors.New("Cannot move there!"))
+	} else if nextSpace.Element != nil && nextSpace.Element.GetType() == "stairs" {
+		panic(errors.New("Level ended"))
 	}
 
 	nextSpace.Element = this
+	this.Space = nextSpace
+
 	space.Element = nil
-	return nil
 }

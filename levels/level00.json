@@ -2,6 +2,10 @@
    "abilities":[
       "feel"
    ],
+   "board":{
+      "height": 3,
+      "width": 3
+   },
    "elements":[
       {
          "type":"warrior",

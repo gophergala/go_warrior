@@ -20,26 +20,31 @@ func TestLevel(t *testing.T) {
 		return
 	}
 
-	level := &Level{}
+	config := &LevelConfig{}
 
-	err = json.Unmarshal(fileBytes, level)
+	err = json.Unmarshal(fileBytes, config)
 	if err != nil {
 		t.Error("An error has ocurred:", err)
 		return
 	}
 
-	if len(level.WarriorAbilities) < 1 {
+	if len(config.WarriorAbilities) < 1 {
 		t.Error("No habilities were added")
 		return
 	}
 
-	if level.WarriorAbilities[0] != "feel" {
+	if config.WarriorAbilities[0] != "feel" {
 		t.Error("Incorrect habilitie")
 		return
 	}
 
-	if len(level.Elements) < 3 {
+	if len(config.Elements) < 3 {
 		t.Error("Elements missing")
+		return
+	}
+
+	if config.Board.Height != 3 {
+		t.Error("Invalid Board Height")
 		return
 	}
 }

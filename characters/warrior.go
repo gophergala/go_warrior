@@ -2,6 +2,7 @@ package characters
 
 import (
 	"errors"
+	"github.com/go_warrior/abilities"
 	"github.com/go_warrior/game"
 )
 
@@ -9,13 +10,19 @@ type Warrior struct {
 	Health       int
 	AttackPoints int
 	Space        *game.Space
+	Abilities    *abilities.Abilities
 }
 
-func GetWarrior(space, x, y int) *Warrior {
-	return &Warrior{
+func NewWarrior() *Warrior {
+	warrior := &Warrior{
 		Health:       20,
 		AttackPoints: 3,
+		Abilities:    &abilities.Abilities{},
 	}
+
+	warrior.Abilities.Performer = warrior
+
+	return warrior
 }
 
 func (this *Warrior) SetSpace(space *game.Space) {

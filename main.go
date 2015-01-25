@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/go_warrior/characters"
 	"github.com/go_warrior/controllers"
 	"github.com/go_warrior/environment"
@@ -18,13 +19,13 @@ func main() {
 		Board: &board,
 	}
 
-	warrior := &characters.Warrior{}
+	warrior := characters.NewWarrior()
 	slug := &characters.Slug{}
 	stairs := &environment.Stairs{}
 
 	elements := map[string]game.Element{
 		"2-0": stairs,
-		"0-2": warrior,
+		"1-2": warrior,
 		"1-1": slug,
 	}
 
@@ -36,7 +37,11 @@ func main() {
 
 	printer.PrintBoard()
 
-	warrior.Move(game.Forward)
+	space := warrior.Abilities.Feel(game.Forward)
 
-	printer.PrintBoard()
+	fmt.Println(space.Element.GetSprite())
+	//warrior.Move(game.Forward)
+
+	//printer.PrintBoard()
+
 }

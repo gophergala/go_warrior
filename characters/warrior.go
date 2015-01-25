@@ -1,6 +1,9 @@
 package characters
 
-import "github.com/go_warrior/game"
+import (
+	"errors"
+	"github.com/go_warrior/game"
+)
 
 type Warrior struct {
 	Health       int
@@ -31,9 +34,14 @@ func (this *Warrior) GetType() string {
 	return "warrior"
 }
 
-func (this *Warrior) Move(direction string) error {
+func (this *Warrior) Move(direction game.Direction) error {
 	space := this.Space
 	nextSpace := space.GetNext(direction)
+
+	if nextSpace == nil {
+		return errors.New("Cannot move there!")
+	}
+
 	nextSpace.Element = this
 	space.Element = nil
 	return nil

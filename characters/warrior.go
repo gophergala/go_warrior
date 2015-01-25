@@ -48,13 +48,30 @@ func (this *Warrior) Walk(direction game.Direction) {
 	nextSpace := space.GetNext(direction)
 
 	if nextSpace == nil {
+
 		panic(errors.New("Cannot move there!"))
-	} else if nextSpace.Element != nil && nextSpace.Element.GetType() == "stairs" {
-		panic(errors.New("Level ended"))
+
+	} else if isNotEmpty(nextSpace) {
+
+		reactToOccupiedSpace(nextSpace)
+
+	} else {
+
+		nextSpace.Element = this
+		this.Space = nextSpace
+
+		space.Element = nil
 	}
+}
 
-	nextSpace.Element = this
-	this.Space = nextSpace
+func isNotEmpty(space *game.Space) bool {
+	return space.Element != nil
+}
 
-	space.Element = nil
+func reactToOccupiedSpace(space *game.Space) {
+	switch space.Element.GetType() {
+	case "stairs":
+		game.STATE = game.SUCCESS
+		return
+	}
 }

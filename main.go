@@ -6,13 +6,8 @@ import (
 	"github.com/go_warrior/game"
 )
 
-var level *controllers.LevelController
-
 func main() {
-	level, err := controllers.NewLevel()
-	if err != nil {
-		panic(err)
-	}
+	level := controllers.NewLevel()
 
 	level.Start(getUserFunction(level.Warrior))
 }

@@ -31,15 +31,13 @@ type LevelController struct {
 	Warrior *characters.Warrior
 }
 
-func NewLevel() (*LevelController, error) {
+func NewLevel() *LevelController {
 	board := game.NewBoard(3, 3)
 
 	generator := NewBoardGenerator(board)
 
-	config, err := getConfig()
-	if err != nil {
-		return nil, err
-	}
+	config, err := getConfig("00")
+	panicIfError(err)
 
 	warrior := getWarrior(config)
 
@@ -52,32 +50,50 @@ func NewLevel() (*LevelController, error) {
 			Board: board,
 		},
 		Warrior: warrior,
-	}, nil
+	}
 }
 
 func (this *LevelController) Start(f UserFunction) {
 	defer func() {
 		if r := recover(); r != nil {
-			switch x := r.(type) {
-			case string:
-				fmt.Println(x)
-			case error:
-				fmt.Println(x.Error())
-			default:
-				fmt.Println("Game ended")
-			}
+			endLevel(r)
 		}
 	}()
 
 	for {
 		this.Printer.PrintBoard()
 		f()
+		if isLevelSucceded() {
+			endLevel("Level successful!")
+			break
+		}
 		time.Sleep(1000 * time.Millisecond)
 	}
 }
 
-func getConfig() (*Level, error) {
-	file, err := os.Open("levels/level00.json")
+func endLevel(cause interface{}) {
+	var message string
+
+	switch causeType := cause.(type) {
+	case string:
+		message = causeType
+		break
+	case error:
+		message = causeType.Error()
+		break
+	default:
+		message = "The game ended for unknown reasons"
+	}
+
+	fmt.Println(message)
+}
+
+func isLevelSucceded() bool {
+	return game.STATE == game.SUCCESS
+}
+
+func getConfig(levelNumber string) (*Level, error) {
+	file, err := os.Open("levels/level" + levelNumber + ".json")
 	if err != nil {
 		return nil, err
 	}
@@ -135,4 +151,10 @@ func getElements(config *Level, warrior *characters.Warrior) map[string]game.Ele
 	}
 
 	return elements
+}
+
+func panicIfError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
